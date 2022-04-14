@@ -1,19 +1,37 @@
-﻿
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using WaterManagement.DependenciesInjection;
+using WaterManagement.Utilities;
+
 namespace WaterManagement
 {
     public class WaterManagementMain
     {
-        public static void Main()
+        private readonly IWaterFacade _waterFacade;
+        public WaterManagementMain(ILogger<WaterManagementMain> logger, IWaterFacade waterFacade)
         {
-            var list_of_commands = File.ReadAllLines(@"C:\Users\csharma\OneDrive - Hyland Software\Desktop\WaterManagement\input.txt");
-            var result = new WaterFacade().CalculateBill(list_of_commands);
-            Console.WriteLine(result[0]+" "+result[1]);
-            //var allotment = file[0];
-            //var strings = allotment.Split();
-            //var room = strings[1];
-            //var corp = strings[2].Split(':')[0];
-            //var bore = strings[2].Split(':')[1];
+            _waterFacade = waterFacade;
+            MyLogger.Log = logger;
+        }
+        public static void Main(String[] args)
+        {
+            var host = ServiceRegistration.CreateHostBuilder(args).Build();
+            host.Services.GetRequiredService<WaterManagementMain>().RunApplication();
+        }
 
+        public void RunApplication()
+        {
+            try
+            {
+                var list_of_commands = File.ReadAllLines(Path.GetFullPath("input.txt"));
+                var result = _waterFacade.CalculateBill(list_of_commands);
+                MyLogger.Log.LogInformation($"{result[0]} {result[1]}");
+            }
+            catch (Exception ex)
+            {
+                MyLogger.Log.LogError(ex.Message);
+                return;
+            }
         }
     }
 }

@@ -3,12 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WaterManagement.Models;
 
 namespace WaterManagement
 {
-    public class WaterManager
+    public class WaterManager : IWaterManager
     {
-        public int WaterFromCandB(String allocateCommand)
+        public Water GetWaterUsed(string allocateCommand, List<string> guestCommands)
+        {
+            var ratio = allocateCommand.Split()[2];
+            var c = Convert.ToInt32(ratio.Split(':')[0]);
+            var b = Convert.ToInt32(ratio.Split(':')[1]);
+            var totalWater = 
+            var water = new Water()
+            {
+                CorporationWater = 
+            };
+            return water;
+        }
+
+        private int WaterFromC(String allocateCommand)
+        {
+
+        }
+        private int WaterFromB(String allocateCommand)
         {
             var room = Convert.ToInt32(allocateCommand.Split()[1]);
             var people = 0;
@@ -20,7 +38,7 @@ namespace WaterManagement
 
         }
 
-        public int WaterFromT(List<String> guestCommands)
+        private int WaterFromT(List<String> guestCommands)
         {
             int guests = 0;
             foreach (var guestCommand in guestCommands)
