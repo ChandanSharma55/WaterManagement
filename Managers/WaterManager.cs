@@ -1,52 +1,72 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaterManagement.Models;
+using WaterManagement.Utilities;
 
 namespace WaterManagement
 {
     public class WaterManager : IWaterManager
     {
-        public Water GetWaterUsed(string allocateCommand, List<string> guestCommands)
+        public Water GetWaterUsed(People people, Ratio ratio)
         {
-            var ratio = allocateCommand.Split()[2];
-            var c = Convert.ToInt32(ratio.Split(':')[0]);
-            var b = Convert.ToInt32(ratio.Split(':')[1]);
-            var totalWater = 
-            var water = new Water()
+            try
             {
-                CorporationWater = 
-            };
-            return water;
-        }
-
-        private int WaterFromC(String allocateCommand)
-        {
-
-        }
-        private int WaterFromB(String allocateCommand)
-        {
-            var room = Convert.ToInt32(allocateCommand.Split()[1]);
-            var people = 0;
-            if (room == 2)
-                people = 3;
-            else
-                people = 5;
-            return people * 10 * 30;
-
-        }
-
-        private int WaterFromT(List<String> guestCommands)
-        {
-            int guests = 0;
-            foreach (var guestCommand in guestCommands)
-            {
-                guests += Convert.ToInt32(guestCommand.Split()[1]);
+                var totalWaterForBorewellAndCorporation = people.PeopleCount * Constants.WATER_NEEDED_PER_DAY_PER_PERSON * Constants.MONTH_DAYS;
+                var water = new Water()
+                {
+                    CorporationWater = WaterFromCorporation(totalWaterForBorewellAndCorporation, ratio),
+                    BorewellWater = WaterFromBorewell(totalWaterForBorewellAndCorporation, ratio),
+                    TankerWater = WaterFromTanker(people.GuestCount)
+                };
+                return water;
             }
+            catch (Exception ex)
+            {
+                MyLogger.Log.LogError($"Error from {nameof(GetWaterUsed)} -- Message -- {ex.Message}");
+                throw;
+            }
+        }
 
-            return guests * 10 * 30;
+        private int WaterFromCorporation(int totalWaterForBorewellAndCorporation, Ratio ratio)
+        {
+            try
+            {
+                return (totalWaterForBorewellAndCorporation * ratio.Corporation) / (ratio.Corporation + ratio.Borewell);
+            }
+            catch (ArithmeticException ex)
+            {
+                MyLogger.Log.LogError($"Error from {nameof(WaterFromCorporation)}");
+                throw ex;
+            }
+        }
+        private int WaterFromBorewell(int totalWaterForBorewellAndCorporation, Ratio ratio)
+        {
+            try
+            {
+                return (totalWaterForBorewellAndCorporation * ratio.Borewell) / (ratio.Corporation + ratio.Borewell);
+            }
+            catch (ArithmeticException ex)
+            {
+                MyLogger.Log.LogError($"Error from {nameof(WaterFromBorewell)}");
+                throw ex;
+            }
+        }
+
+        private int WaterFromTanker(int guests)
+        {
+            try
+            {
+                return guests * Constants.WATER_NEEDED_PER_DAY_PER_PERSON * Constants.MONTH_DAYS;
+            }
+            catch (ArithmeticException ex)
+            {
+                MyLogger.Log.LogError($"Error from {nameof(WaterFromTanker)}");
+                throw ex;
+            }
         }
     }
 }

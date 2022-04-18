@@ -1,8 +1,10 @@
 ﻿
+using WaterManagement.Models;
+
 namespace WaterManagement
 {
     public interface IBillManager
     {
-        int[] GetTotalBill(string allocateCommand, List<string> guestCommands);
+        Result GetTotalBill(string allocateCommand, List<string> guestCommands);
     }
 }

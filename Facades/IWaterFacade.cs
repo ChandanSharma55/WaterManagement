@@ -1,7 +1,9 @@
-﻿namespace WaterManagement
+﻿using WaterManagement.Models;
+
+namespace WaterManagement
 {
     public interface IWaterFacade
     {
-        public int[] CalculateBill(string[] commands);
+        Result CalculateTotalBill(string[] commands);
     }
 }

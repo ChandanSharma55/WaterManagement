@@ -15,21 +15,29 @@ namespace WaterManagement
         }
         public static void Main(String[] args)
         {
-            var host = ServiceRegistration.CreateHostBuilder(args).Build();
-            host.Services.GetRequiredService<WaterManagementMain>().RunApplication();
+            try
+            {
+                var host = ServiceRegistration.CreateHostBuilder(args).Build();//Registration of Services for Dependecy Injection
+                host.Services.GetRequiredService<WaterManagementMain>().RunApplication();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error from {nameof(Main)} -- Message -- {ex.Message}");
+                return;
+            }
         }
 
         public void RunApplication()
         {
             try
             {
-                var list_of_commands = File.ReadAllLines(Path.GetFullPath("input.txt"));
-                var result = _waterFacade.CalculateBill(list_of_commands);
-                MyLogger.Log.LogInformation($"{result[0]} {result[1]}");
+                var list_of_commands = File.ReadAllLines(Path.GetFullPath("input.txt"));//input file, can be changed as per testcase
+                var finalResult = _waterFacade.CalculateTotalBill(list_of_commands);
+                Console.WriteLine($"{finalResult.TotalWater} {finalResult.TotalCost}");
             }
             catch (Exception ex)
             {
-                MyLogger.Log.LogError(ex.Message);
+                MyLogger.Log.LogError($"Error from {nameof(RunApplication)} -- Message -- {ex.Message}");
                 return;
             }
         }

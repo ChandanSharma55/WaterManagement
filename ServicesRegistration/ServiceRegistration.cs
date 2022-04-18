@@ -5,7 +5,7 @@ namespace WaterManagement.DependenciesInjection
 {
     public static class ServiceRegistration
     {
-        public static IHostBuilder CreateHostBuilder(String [] args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
                 .ConfigureServices(services =>
@@ -14,6 +14,7 @@ namespace WaterManagement.DependenciesInjection
                     services.AddScoped<IWaterFacade,WaterFacade>();
                     services.AddScoped<IWaterManager,WaterManager>();
                     services.AddScoped<IBillManager,BillManager>();
+                    //services.AddScoped<IPeopleManager, PeopleManager>();
                 });
         }
     }

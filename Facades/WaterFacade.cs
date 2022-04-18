@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WaterManagement.Utilities;
 using Microsoft.Extensions.Logging;
+using WaterManagement.Models;
 
 namespace WaterManagement
 {
@@ -16,26 +17,26 @@ namespace WaterManagement
             _billManager = billManager;
         }
 
-        public int[] CalculateBill(String[] commands)
+        public Result CalculateTotalBill(string[] commands)
         {
             try
             {
                 if (!InputValidation.Validate(commands))
-                    throw new Exception("Invalid Argument");
+                    throw new Exception("Invalid Arguments");
 
-                var allocateCommand = commands[0];
+                var allocateCommand = commands[0];//first command will always be allocation command
                 var guestCommands = new List<String>();
                 for (int i = 1; i < commands.Length - 1; i++)
                 {
-                    guestCommands.Add(commands[i]);
+                    guestCommands.Add(commands[i]);//all commands after allocation will be about guests except the last one
                 }
 
                 return _billManager.GetTotalBill(allocateCommand, guestCommands);
             }
             catch (Exception ex)
             {
-                MyLogger.Log.LogError($"Error from {nameof(CalculateBill)}");
-                throw ex;
+                MyLogger.Log.LogError($"Error from -- {nameof(CalculateTotalBill)} -- Message -- {ex.Message}");
+                throw;
             }
         }
     }
