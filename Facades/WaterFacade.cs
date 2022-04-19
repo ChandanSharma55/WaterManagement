@@ -21,7 +21,7 @@ namespace WaterManagement
         {
             try
             {
-                if (!InputValidation.Validate(commands))
+                if (!InputValidation.Validate(commands))//Validating the inputs
                     throw new Exception("Invalid Arguments");
 
                 var allocateCommand = commands[0];//first command will always be allocation command

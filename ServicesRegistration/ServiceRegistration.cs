@@ -14,7 +14,7 @@ namespace WaterManagement.DependenciesInjection
                     services.AddScoped<IWaterFacade,WaterFacade>();
                     services.AddScoped<IWaterManager,WaterManager>();
                     services.AddScoped<IBillManager,BillManager>();
-                    //services.AddScoped<IPeopleManager, PeopleManager>();
+                    services.AddScoped<IPeopleManager, PeopleManager>();
                 });
         }
     }

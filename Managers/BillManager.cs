@@ -13,24 +13,24 @@ namespace WaterManagement
             _waterManager = waterManager;
             _peopleManager = peopleManager;
         }
-        public Result GetTotalBill(String allocateCommand, List<String> guestCommands)
+        public Result GetTotalBill(string allocateCommand, List<string> guestCommands)
         {
             try
             {
-                var peopleTypes = _peopleManager.GetPeopleAndGuests(allocateCommand, guestCommands);
-                var ratio = allocateCommand.GetRatio();
-                var waterTypes = _waterManager.GetWaterUsed(peopleTypes, ratio);
+                var peopleTypes = _peopleManager.GetPeopleAndGuests(allocateCommand, guestCommands);//Get total number of people and total number of guests
+                var ratio = allocateCommand.GetRatio();//Get the ratio for corporation : borewell
+                var waterTypes = _waterManager.GetWaterUsed(peopleTypes, ratio);//Get the total water used by each source
 
                 var bill = new Bill()
                 {
-                    CorporationWater = BillFromCorporation(waterTypes.CorporationWater),
-                    BorewellWater = BillFromBorewell(waterTypes.BorewellWater),
-                    TankerWater = BillFromTanker(waterTypes.TankerWater)
+                    CorporationWater = BillFromCorporation(waterTypes.CorporationWater), //Get the bill generated from Corporation Water
+                    BorewellWater = BillFromBorewell(waterTypes.BorewellWater),//Get the bill generated from Borewell Water
+                    TankerWater = BillFromTanker(waterTypes.TankerWater)//Get the bill generated from Tanker Water
                 };
                 var result = new Result()
                 {
-                    TotalCost = bill.TankerWater + bill.BorewellWater + bill.CorporationWater,
-                    TotalWater = waterTypes.TankerWater + waterTypes.BorewellWater + waterTypes.CorporationWater
+                    TotalCost = bill.TankerWater + bill.BorewellWater + bill.CorporationWater,//Total cost from all 3 sources
+                    TotalWater = waterTypes.TankerWater + waterTypes.BorewellWater + waterTypes.CorporationWater//Total water from all 3 sources
                 };
                 return result;
 
@@ -75,8 +75,8 @@ namespace WaterManagement
             }
             catch (ArithmeticException ex)
             {
-                MyLogger.Log.LogError($"Error from {nameof(BillFromTanker)}");
-                throw ex;
+                MyLogger.Log.LogError($"Error from {nameof(BillFromTanker)} -- Message -- {ex.Message}");
+                throw;
             }
         }
 
@@ -88,8 +88,8 @@ namespace WaterManagement
             }
             catch (ArithmeticException ex)
             {
-                MyLogger.Log.LogError($"Error from {nameof(BillFromCorporation)}");
-                throw ex;
+                MyLogger.Log.LogError($"Error from {nameof(BillFromCorporation)} -- Message -- {ex.Message}");
+                throw;
             }
         }
         private int BillFromBorewell(int waterFromBorewell)
@@ -100,8 +100,8 @@ namespace WaterManagement
             }
             catch (ArithmeticException ex)
             {
-                MyLogger.Log.LogError($"Error from {nameof(BillFromBorewell)}");
-                throw ex;
+                MyLogger.Log.LogError($"Error from {nameof(BillFromBorewell)} -- Message -- {ex.Message}");
+                throw;
             }
         }
     }

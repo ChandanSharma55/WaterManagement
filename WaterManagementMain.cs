@@ -13,7 +13,7 @@ namespace WaterManagement
             _waterFacade = waterFacade;
             MyLogger.Log = logger;
         }
-        public static void Main(String[] args)
+        public static void Main(string[] args)
         {
             try
             {

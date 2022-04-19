@@ -17,8 +17,8 @@ namespace WaterManagement
             {
                 var people = new People()
                 {
-                    PeopleCount = GetPeople(allocateCommand),
-                    GuestCount = GetGuests(guestCommands)
+                    PeopleCount = GetPeople(allocateCommand),//Get total number of people as per room type
+                    GuestCount = GetGuests(guestCommands)//Get total number of guests added later
                 };
                 return people;
             }

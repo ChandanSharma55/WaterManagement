@@ -17,8 +17,8 @@ namespace WaterManagement.Utilities
                 var ratioString = allocateCommand.Split()[2];
                 var ratio = new Ratio()
                 {
-                    Borewell = Convert.ToInt32(ratioString.Split(':')[1]),
-                    Corporation = Convert.ToInt32(ratioString.Split(':')[0])
+                    Corporation = Convert.ToInt32(ratioString.Split(':')[0]),
+                    Borewell = Convert.ToInt32(ratioString.Split(':')[1])
                 };
                 return ratio;
             }

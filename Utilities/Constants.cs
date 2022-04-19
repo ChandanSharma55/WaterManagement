@@ -18,7 +18,7 @@ namespace WaterManagement.Utilities
         public static readonly int PEOPLE_COUNT_A = 3;
         public static readonly int PEOPLE_COUNT_B = 5;
         public static readonly int WATER_NEEDED_PER_DAY_PER_PERSON = 10;
-        public static readonly int MONTH_DAYS = 30;
+        public static readonly int DAYS_IN_A_MONTH = 30;
         public static readonly int CORPORATION_RATE = 1;
         public static readonly double BOREWELL_RATE = 1.5;
         public static readonly int HIGHEST_VALUE = 3000;

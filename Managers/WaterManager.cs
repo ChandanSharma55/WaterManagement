@@ -15,7 +15,7 @@ namespace WaterManagement
         {
             try
             {
-                var totalWaterForBorewellAndCorporation = people.PeopleCount * Constants.WATER_NEEDED_PER_DAY_PER_PERSON * Constants.MONTH_DAYS;
+                var totalWaterForBorewellAndCorporation = people.PeopleCount * Constants.WATER_NEEDED_PER_DAY_PER_PERSON * Constants.DAYS_IN_A_MONTH;
                 var water = new Water()
                 {
                     CorporationWater = WaterFromCorporation(totalWaterForBorewellAndCorporation, ratio),
@@ -39,8 +39,8 @@ namespace WaterManagement
             }
             catch (ArithmeticException ex)
             {
-                MyLogger.Log.LogError($"Error from {nameof(WaterFromCorporation)}");
-                throw ex;
+                MyLogger.Log.LogError($"Error from {nameof(WaterFromCorporation)} -- Message -- {ex.Message}");
+                throw;
             }
         }
         private int WaterFromBorewell(int totalWaterForBorewellAndCorporation, Ratio ratio)
@@ -51,8 +51,8 @@ namespace WaterManagement
             }
             catch (ArithmeticException ex)
             {
-                MyLogger.Log.LogError($"Error from {nameof(WaterFromBorewell)}");
-                throw ex;
+                MyLogger.Log.LogError($"Error from {nameof(WaterFromBorewell)} -- Message -- {ex.Message}");
+                throw;
             }
         }
 
@@ -60,12 +60,12 @@ namespace WaterManagement
         {
             try
             {
-                return guests * Constants.WATER_NEEDED_PER_DAY_PER_PERSON * Constants.MONTH_DAYS;
+                return guests * Constants.WATER_NEEDED_PER_DAY_PER_PERSON * Constants.DAYS_IN_A_MONTH;
             }
             catch (ArithmeticException ex)
             {
-                MyLogger.Log.LogError($"Error from {nameof(WaterFromTanker)}");
-                throw ex;
+                MyLogger.Log.LogError($"Error from {nameof(WaterFromTanker)} -- Message -- {ex.Message}");
+                throw;
             }
         }
     }
