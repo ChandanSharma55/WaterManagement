@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WaterManagement.Utilities
 {
-    public static class MyLogger
+    public class MyLogger
     {
         public static ILogger Log;
     }
