@@ -44,65 +44,41 @@ namespace WaterManagement
 
         private int BillFromTanker(int waterFromT)
         {
-            try
+            int rate = 0;
+            int extra = 0;
+            if (waterFromT > Constants.HIGHEST_VALUE)
             {
-                int rate = 0;
-                int extra = 0;
-                if (waterFromT > Constants.HIGHEST_VALUE)
-                {
-                    extra = waterFromT - Constants.HIGHEST_VALUE;
-                    rate += extra * Constants.TANKER_RATE_ABOVE_HIGHEST;
-                    waterFromT -= extra;
-                }
-                if (waterFromT > Constants.MID_VALUE && waterFromT <= Constants.HIGHEST_VALUE)
-                {
-                    extra = waterFromT - Constants.MID_VALUE;
-                    rate += extra * Constants.TANKER_RATE_HIGHER_MID;
-                    waterFromT -= extra;
-                }
-                if (waterFromT > Constants.LOWEST_VALUE && waterFromT <= Constants.MID_VALUE)
-                {
-                    extra = waterFromT - Constants.LOWEST_VALUE;
-                    rate += extra * Constants.TANKER_RATE_LOWER_MID;
-                    waterFromT -= extra;
-                }
-                if (waterFromT > 0 && waterFromT <= Constants.LOWEST_VALUE)
-                {
-                    rate += waterFromT * Constants.TANKER_RATE_LOWEST;
-                }
+                extra = waterFromT - Constants.HIGHEST_VALUE;
+                rate += extra * Constants.TANKER_RATE_ABOVE_HIGHEST;
+                waterFromT -= extra;
+            }
+            if (waterFromT > Constants.MID_VALUE && waterFromT <= Constants.HIGHEST_VALUE)
+            {
+                extra = waterFromT - Constants.MID_VALUE;
+                rate += extra * Constants.TANKER_RATE_HIGHER_MID;
+                waterFromT -= extra;
+            }
+            if (waterFromT > Constants.LOWEST_VALUE && waterFromT <= Constants.MID_VALUE)
+            {
+                extra = waterFromT - Constants.LOWEST_VALUE;
+                rate += extra * Constants.TANKER_RATE_LOWER_MID;
+                waterFromT -= extra;
+            }
+            if (waterFromT > 0 && waterFromT <= Constants.LOWEST_VALUE)
+            {
+                rate += waterFromT * Constants.TANKER_RATE_LOWEST;
+            }
 
-                return rate;
-            }
-            catch (ArithmeticException ex)
-            {
-                MyLogger.Log.LogError($"Error from {nameof(BillFromTanker)} -- Message -- {ex.Message}");
-                throw;
-            }
+            return rate;
         }
 
         private int BillFromCorporation(int waterFromCorporation)
         {
-            try
-            {
-                return waterFromCorporation * Constants.CORPORATION_RATE;
-            }
-            catch (ArithmeticException ex)
-            {
-                MyLogger.Log.LogError($"Error from {nameof(BillFromCorporation)} -- Message -- {ex.Message}");
-                throw;
-            }
+            return waterFromCorporation * Constants.CORPORATION_RATE;
         }
         private int BillFromBorewell(int waterFromBorewell)
         {
-            try
-            {
-                return (int)Math.Round(waterFromBorewell * Constants.BOREWELL_RATE);
-            }
-            catch (ArithmeticException ex)
-            {
-                MyLogger.Log.LogError($"Error from {nameof(BillFromBorewell)} -- Message -- {ex.Message}");
-                throw;
-            }
+            return (int)Math.Round(waterFromBorewell * Constants.BOREWELL_RATE);
         }
     }
 }

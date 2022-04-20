@@ -24,7 +24,7 @@ namespace WaterManagement
                 };
                 return water;
             }
-            catch (Exception ex)
+            catch (DivideByZeroException ex)
             {
                 MyLogger.Log.LogError($"Error from {nameof(GetWaterUsed)} -- Message -- {ex.Message}");
                 throw;
@@ -33,40 +33,15 @@ namespace WaterManagement
 
         private int WaterFromCorporation(int totalWaterForBorewellAndCorporation, Ratio ratio)
         {
-            try
-            {
-                return (totalWaterForBorewellAndCorporation * ratio.Corporation) / (ratio.Corporation + ratio.Borewell);
-            }
-            catch (ArithmeticException ex)
-            {
-                MyLogger.Log.LogError($"Error from {nameof(WaterFromCorporation)} -- Message -- {ex.Message}");
-                throw;
-            }
+            return (totalWaterForBorewellAndCorporation * ratio.Corporation) / (ratio.Corporation + ratio.Borewell);
         }
         private int WaterFromBorewell(int totalWaterForBorewellAndCorporation, Ratio ratio)
         {
-            try
-            {
-                return (totalWaterForBorewellAndCorporation * ratio.Borewell) / (ratio.Corporation + ratio.Borewell);
-            }
-            catch (ArithmeticException ex)
-            {
-                MyLogger.Log.LogError($"Error from {nameof(WaterFromBorewell)} -- Message -- {ex.Message}");
-                throw;
-            }
+            return (totalWaterForBorewellAndCorporation * ratio.Borewell) / (ratio.Corporation + ratio.Borewell);
         }
-
         private int WaterFromTanker(int guests)
         {
-            try
-            {
-                return guests * Constants.WATER_NEEDED_PER_DAY_PER_PERSON * Constants.DAYS_IN_A_MONTH;
-            }
-            catch (ArithmeticException ex)
-            {
-                MyLogger.Log.LogError($"Error from {nameof(WaterFromTanker)} -- Message -- {ex.Message}");
-                throw;
-            }
+            return guests * Constants.WATER_NEEDED_PER_DAY_PER_PERSON * Constants.DAYS_IN_A_MONTH;
         }
     }
 }

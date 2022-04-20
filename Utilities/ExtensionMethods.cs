@@ -22,7 +22,7 @@ namespace WaterManagement.Utilities
                 };
                 return ratio;
             }
-            catch (Exception ex)
+            catch (FormatException ex)
             {
                 MyLogger.Log.LogError($"Error from {nameof(GetRatio)} -- Message -- {ex.Message}");
                 throw;
